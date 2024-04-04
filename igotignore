@@ -1,7 +1,0 @@
-.o
-.pyc
-.exe
-*.yaml
-*.env
-__pycache__/
-.vscode
