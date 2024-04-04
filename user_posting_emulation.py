@@ -10,7 +10,6 @@ from sqlalchemy import text
 
 random.seed(100)
 
-
 class AWSDBConnector:
 
     def __init__(self):
@@ -25,9 +24,7 @@ class AWSDBConnector:
         engine = sqlalchemy.create_engine(f"mysql+pymysql://{self.USER}:{self.PASSWORD}@{self.HOST}:{self.PORT}/{self.DATABASE}?charset=utf8mb4")
         return engine
 
-
 new_connector = AWSDBConnector()
-
 
 def run_infinite_post_data_loop():
     while True:
@@ -78,7 +75,7 @@ def run_infinite_post_data_loop():
                             }
                     }
                 ]
-            })
+            }, default=str)
             headers = {'Content-Type': 'application/vnd.kafka.json.v2+json'}
             invoke_url_pin = "https://2lpziykeee.execute-api.us-east-1.amazonaws.com/prod/topics/0ea287818623.pin"
             pin_response = requests.request("POST", invoke_url_pin, headers=headers, data=pin_payload)
@@ -96,7 +93,7 @@ def run_infinite_post_data_loop():
                             }
                     }
                 ]
-            })
+            }, default=str)
             invoke_url_geo = "https://2lpziykeee.execute-api.us-east-1.amazonaws.com/prod/topics/0ea287818623.geo"
             geo_response = requests.request("POST", invoke_url_geo, headers=headers, data=geo_payload)
             print(geo_response.status_code)
@@ -113,7 +110,7 @@ def run_infinite_post_data_loop():
                             }
                     }
                 ]
-            })
+            }, default=str)
             invoke_url_user = "https://2lpziykeee.execute-api.us-east-1.amazonaws.com/prod/topics/0ea287818623.user"
             user_response = requests.request("POST", invoke_url_user, headers=headers, data=user_payload)
             print(user_response.status_code)
