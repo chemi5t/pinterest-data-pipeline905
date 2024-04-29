@@ -87,7 +87,7 @@ def run_infinite_post_data_loop():
                 "StreamName": "streaming-0ea287818623-geo",
                 "Data": {
                     "ind": geo_result["ind"],
-                    "timestamp": geo_result["timestamp"],
+                    "timestamp": geo_result["timestamp"].strftime('%Y-%m-%d %H:%M:%S'),
                     "latitude": geo_result["latitude"],
                     "longitude": geo_result["longitude"],
                     "country": geo_result["country"]
@@ -96,7 +96,7 @@ def run_infinite_post_data_loop():
                     })
             
             invoke_url_geo = "https://2lpziykeee.execute-api.us-east-1.amazonaws.com/prod/streams/streaming-0ea287818623-geo/record"
-            geo_response = requests.request("POST", invoke_url_geo, headers=headers, data=geo_payload)
+            geo_response = requests.request("PUT", invoke_url_geo, headers=headers, data=geo_payload)
             print(geo_response.status_code)
             
             user_payload = json.dumps({
@@ -106,13 +106,13 @@ def run_infinite_post_data_loop():
                     "first_name": user_result["first_name"],
                     "last_name": user_result["last_name"],
                     "age": user_result["age"],
-                    "date_joined": user_result["date_joined"]
+                    "date_joined": user_result["date_joined"].strftime("%Y-%m-%d %H:%M:%S")
                     },
                     "PartitionKey": "geo_pk"
                     })
             
             invoke_url_user = "https://2lpziykeee.execute-api.us-east-1.amazonaws.com/prod/streams/streaming-0ea287818623-user/record"
-            user_response = requests.request("POST", invoke_url_user, headers=headers, data=user_payload)
+            user_response = requests.request("PUT", invoke_url_user, headers=headers, data=user_payload)
             print(user_response.status_code)
 
 if __name__ == "__main__":
