@@ -7,21 +7,24 @@ import json
 import sqlalchemy
 from sqlalchemy import text
 
+from decouple import config # Calling sensitive information
+import yaml # to read .yaml
+
+
 
 random.seed(100)
 
 class AWSDBConnector:
 
     def __init__(self):
+         
+         cred_config_access = config('credentials_env') # refers to .yaml file via decouple import config; to gain access to private credentials for API
+         
+         with open(cred_config_access, 'r') as db_creds: # extracts the credentials from .yaml file
+            self.creds = yaml.safe_load(db_creds)
 
-        self.HOST = "pinterestdbreadonly.cq2e8zno855e.eu-west-1.rds.amazonaws.com"
-        self.USER = 'project_user'
-        self.PASSWORD = ':t%;yCY3Yjg'
-        self.DATABASE = 'pinterest_data'
-        self.PORT = 3306
-        
     def create_db_connector(self):
-        engine = sqlalchemy.create_engine(f"mysql+pymysql://{self.USER}:{self.PASSWORD}@{self.HOST}:{self.PORT}/{self.DATABASE}?charset=utf8mb4")
+        engine = sqlalchemy.create_engine(f"mysql+pymysql://{self.creds['AWSDB_USER']}:{self.creds['AWSDB_PASSWORD']}@{self.creds['AWSDB_HOST']}:{self.creds['AWSDB_PORT']}/{self.creds['AWSDB_DATABASE']}?charset=utf8mb4")
         return engine
 
 new_connector = AWSDBConnector()

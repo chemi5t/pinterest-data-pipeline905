@@ -55,9 +55,9 @@ def run_infinite_post_data_loop():
             for row in user_selected_row:
                 user_result = dict(row._mapping)
             
-            print(pin_result)
-            print(geo_result)
-            print(user_result)
+            # print("**************************************************", f"\n", pin_result, f"\n")
+            # print(geo_result, f"\n")
+            # print(user_result, f"\n")
 
             pin_payload = json.dumps({
                 "StreamName": "streaming-0ea287818623-pin",
@@ -81,7 +81,7 @@ def run_infinite_post_data_loop():
             headers = {'Content-Type': 'application/json'}
             invoke_url_pin = "https://2lpziykeee.execute-api.us-east-1.amazonaws.com/prod/streams/streaming-0ea287818623-pin/record"
             pin_response = requests.request("PUT", invoke_url_pin, headers=headers, data=pin_payload)
-            print(pin_response.status_code)
+            print("**************************************************", f"\n", pin_response.status_code, f"\n", pin_response.json(), f"\n", pin_payload, f"\n")
 
             geo_payload = json.dumps({
                 "StreamName": "streaming-0ea287818623-geo",
@@ -97,7 +97,7 @@ def run_infinite_post_data_loop():
             
             invoke_url_geo = "https://2lpziykeee.execute-api.us-east-1.amazonaws.com/prod/streams/streaming-0ea287818623-geo/record"
             geo_response = requests.request("PUT", invoke_url_geo, headers=headers, data=geo_payload)
-            print(geo_response.status_code)
+            print(f"\n", geo_response.status_code, f"\n", geo_response.json(), f"\n", geo_payload, f"\n")
             
             user_payload = json.dumps({
                  "StreamName": "streaming-0ea287818623-user",
@@ -108,12 +108,12 @@ def run_infinite_post_data_loop():
                     "age": user_result["age"],
                     "date_joined": user_result["date_joined"].strftime("%Y-%m-%d %H:%M:%S")
                     },
-                    "PartitionKey": "geo_pk"
+                    "PartitionKey": "user_pk"
                     })
             
             invoke_url_user = "https://2lpziykeee.execute-api.us-east-1.amazonaws.com/prod/streams/streaming-0ea287818623-user/record"
             user_response = requests.request("PUT", invoke_url_user, headers=headers, data=user_payload)
-            print(user_response.status_code)
+            print(f"\n", user_response.status_code, f"\n", user_response.json(), f"\n", user_payload, f"\n")
 
 if __name__ == "__main__":
     run_infinite_post_data_loop()
