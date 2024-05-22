@@ -527,9 +527,9 @@ Keep this terminal available for when data is being streamed into it via the exe
 
 Pinterest data is sent to the `API`, which sends the data to the `MSK Cluster` using the `plugin-connector pair` previously created.
 
-Modification of the `user_posting_emulation_basic.py` script to `user_posting_emulation_batch.py` allows sending of data from the three tables to their corresponding `Kafka topics` using the `API` Invoke URL previously noted.
+Modification of the `user_posting_emulation_basic.py` script to `user_posting_emulation_batch.py` allows sending data from the three tables to their corresponding `Kafka topics` using the `API` Invoke URL previously noted.
 
-From within the project folder terminal, in a new terminal run the following:
+From within the project folder terminal, in a new terminal, run the following:
 
 ```python
 python user_posting_emulation_batch.py
@@ -539,15 +539,25 @@ This script generates the following output:
 
 ![batch_emulation](Images/09_batch_emulation.jpg)
 
-The script exectued above shows the data output from the 3 tables in succession and the returned successful status code of 200 respectively.
+The script executed above shows the data output from the 3 tables in succession and the returned successful status code of 200 respectively.
 
-In parallel when checking the terminal containing the listening REST proxy; returned the confirmation of ev ery record being send to the API:
+While the above is being executed, it is sending the records across to the `listening REST proxy` for which the terminal is open from before. This terminal shows the confirmation of every record being sent to the `API`:
 
 ![listening_rest_proxy](Images/10_listening_rest_proxy.jpg)
 
-
-Check if data is getting stored in the S3 bucket. Notice the folder organization (e.g topics/<your_UserId>.pin/partition=0/) that your connector creates in the bucket. Make sure your database credentials are encoded in a separate, hidden db_creds.yaml file.
 - ### Checking Data has been ingested and stored in the S3 bucket
+
+The `user_posting_emulation_batch.py` is run until a sufficient number of records have been generated and stored to the S3 bucket. The S3 bucket is checked to see if the data has been successfully ingested through Kafka:
+
+![s3_bucket_topics](Images/11_s3_bucket_topics.jpg)
+
+![s3_bucket_topics_partition](Images/12_s3_bucket_topics_partition.jpg)
+
+Check if data is getting stored in the S3 bucket. Notice the folder organisation (e.g. topics/<your_UserId>.pin/partition=0/) that your connector creates in the bucket. Make sure your database credentials are encoded in a separate, hidden db_creds.yaml file.
+
+
+
+
 
 
 ### **Outcomes from Milestone 6 (Batch processing: Databricks):**

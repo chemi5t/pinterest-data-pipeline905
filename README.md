@@ -1,226 +1,42 @@
-Project Title
-Table of Contents, if the README file is long
-A description of the project: what it does, the aim of the project, and what you learned
-Installation instructions
-Usage instructions
-File structure of the project
-License information
-
-
-
-# Pintrest Data Pipeline
-
-# Table of Contents
-- [A description of the project](#a-description-of-the-project)
-- [Project Milestones - Summary](#project-milestones---summary)
-    - [Outcomes from Milestone 1 (Setting up the environment):](#outcomes-from-milestone-1-setting-up-the-environment)
-    - [Outcomes from Milestone 2 (Extracting and cleaning the data from the data sources):](#outcomes-from-milestone-2-extracting-and-cleaning-the-data-from-the-data-sources)
-    - [Outcomes from Milestone 3 (Creating the database schema):](#outcomes-from-milestone-3-creating-the-database-schema)
-    - [Outcomes from Milestone 4 (Querying the data):](#outcomes-from-milestone-4-querying-the-data)
-- [Installation instructions](#installation-instructions)
-- [Usage instructions](#usage-instructions)
-- [File structure of the project](#file-structure-of-the-project)
-- [Languages](#languages)
-- [License information](#license-information)
-- [Appendix](#appendix)
-- [Project Milestones](#project-milestones)
-    - [Milestone 1: Environment set up](#milestone-1-environment-set-up)
-    - [Outcomes from Milestone 1 (Setting up the environment):](#outcomes-from-milestone-1-setting-up-the-environment-1)
-    - [Milestone 2: Extract and clean the data from the data sources](#milestone-2-extract-and-clean-the-data-from-the-data-sources)
-    - [Outcomes from Milestone 2 (Extracting and cleaning the data from the data sources):](#outcomes-from-milestone-2-extracting-and-cleaning-the-data-from-the-data-sources-1)
-    - [Milestone 3: Create the database scheme](#milestone-3-create-the-database-scheme)
-    - [Outcomes from Milestone 3 (Creating the database schema):](#outcomes-from-milestone-3-creating-the-database-schema-1)
-    - [Milestone 4: Querying the data](#milestone-4-querying-the-data)
-    - [Outcomes from Milestone 4 (Querying the data):](#outcomes-from-milestone-4-querying-the-data-1)
+# Pinterest Data Pipeline
 
 # A description of the project
-The Multinational Retail Data Centralisation (MRDC) Project aims to address the challenge of their sales data being spread across many different data sources (AWS RSD, AWS S3 and API) and formats (PDF, CSV, and JSON). This hinders accessibility and analysis of the data. The project's primary objective is to establish a centralised database system that consolidates all sales data into a single location together with a star-based schema. This centralised repository will serve as the primary source of truth for sales data, enabling easy access and analysis for team members. The project involves storing up-to-date sales data in the database and developing querying mechanisms to generate the latest metrics for business analysis and decision-making.
 
-In the `/root` (multinational-retail-data-centralisation) folder, the `main.py` file runs the various methods shown below that each perform the Extract, Transform, and Load (ETL) process for the six tables.
+Pinterest, a popular social media platform and visual discovery engine, allows users to save and share ideas through images and videos known as "pins." Users organise their pins into themed collections called "boards," covering diverse topics like home decor, fashion, recipes, and more. With vast data storage and processing billions of data points daily, Pinterest aims to enhance user experience by leveraging data insights.
 
-```python
-if __name__ == "__main__":
-    print("######################################## 1. ETL of Legacy Users ########################################")
-    one_etl_legacy_users()
+This project aims to replicate Pinterest's data processing system by creating an end-to-end pipeline on the AWS Cloud. The pipeline orchestrates data ingestion, storage, and real-time analysis, utilising a range of technologies:
 
-    print("######################################## 2. ETL of Card Details ########################################")
-    two_etl_card_details()
+- Amazon Elastic Compute Cloud (EC2) for computing resources
+- Amazon Simple Storage Service (S3) for scalable object storage
+- SQL for data querying and manipulation
+- Apache Kafka/AWS Managed Streaming for Apache Kafka (MSK) for streaming data processing
+- Amazon API Gateway for creating APIs
+- Spark for distributed data processing
+- Databricks for data engineering and analytics
+- Amazon Managed Workflows for Apache Airflow (MWAA) for workflow orchestration
+- Amazon Kinesis for real-time data streaming
 
-    print("######################################## 3. ETL of Store Details ########################################")
-    three_etl_store_details()
+By leveraging these technologies, this project aims to demonstrate how to build a secure, robust and scalable data processing pipeline similar to that of Pinterest via AWS Cloud. Additionally, the pipeline facilitates value extraction through SQL queries, enhancing the project's analytical capabilities.
 
-    print("######################################## 4. ETL of Product Details ########################################")
-    four_etl_product_details()
-
-    print("######################################## 5. ETL of Orders Details ########################################")
-    five_etl_orders_details()
-
-    print("######################################## 6. ETL of Date Events ########################################")
-    six_etl_date_events()
-```
-
-The methods within the `main.py` script utilises the `data_cleaning.py`, `data_extraction.py`, and `database_utils.py` files and imports the DataCleaning, DataExtractor, and DatabaseConnector classes and uploads the clean data to the centralised database (`sales_data`) to complete the ETL pipeline.
-
-A summary of the desired table extracted, from what source, connection method required and the name given to the table once uploaded to the database is given below:
-
-        | Table Name       | Source              | Connection Method | Uploaded Table Name |
-        |------------------|---------------------|-------------------|---------------------|
-        | legacy_users     | AWS RDS database    | SQLAlchemy        | dim_users           |
-        | card_details     | AWS S3 bucket (PDF) | tabula-py         | dim_card_details    |
-        | store_details    | API                 | API requests      | dim_store_details   |
-        | products_details | AWS S3 bucket (CSV) | boto3             | dim_products        |
-        | orders_table     | AWS RDS database    | SQLAlchemy        | orders_table        |
-        | date_details     | AWS S3 bucket (JSON)| boto3             | dim_date_times      |
-
-The star-schema is completed by running `_05_SQL\_01_star_schema_sales_data.sql`, providing the Entity-Relationship Diagram (ERD) for the database. SQL is used to answer several business questions; the answers can be found in Milestone 4 or by running `_05_SQL\_02_queries.sql`.
-
-This project provides an opportunity to gain insights into the logical structuring of `Python code` within `Visual Studio Code` (VS Code), an integrated development environment (IDE) commonly used for software development. With code management handled through `Git` and `GitHub`, version control and change tracking are streamlined, allowing for collaboration and easy rollback of changes.
-
-Data extraction from various sources is managed efficiently using libraries such as `tabula-py`, `boto3`, and `SQLAlchemy`. These tools facilitate the retrieval of data from sources like `PDF` files and `AWS S3 buckets`, ensuring a seamless integration of data into the project pipeline. Additionally, `pandas` is employed for diverse data cleaning tasks, enabling the transformation and preparation of raw data for further processing.
-
-The implementation of error handling mechanisms within the code ensures robustness, allowing for graceful handling of unexpected errors that may occur during script execution. `SQL` and `SQLTools` are utilised for writing and executing database queries, providing a powerful interface for interacting with the database backend.
-
-Overall, this project offers a comprehensive learning experience encompassing various aspects of software development, data extraction, transformation, and database interaction. Through the utilisation of a diverse range of technologies and libraries, it equips individuals with the necessary skills to tackle real-world data-centric challenges effectively.
-
-Finally, the scope for the MRDC project can be expanded in a number of way. To list a few:
-
-1. After extraction of tables; to convert these saved `.csv` files to `.ipynb` files locally rather than direct from source. This would allow a more general function to to perform this task.
-2. Perform extractions across the tables in one method, followed by clean and then upload. This may help with regard to bug fixing if required. 
-3. Further factorising of code can occur. 
-    - The saving of `.csv` and `.ipynb` could be made into a function and thus reducing lines of similar code.
-    - The way pandas was used for cleaning of raw data from tables and its columns could have been generalised. Cleaning methods that dealt with certain tasks could have been generalised to handle a few tasks within a column and then called across various tables as needed. This would save on the number of coded lines and help the script look cleaner.
-4. Private credentials have been accessed via two routes in the project, this could be changed to one style for consistency and minimise any credential related issues.  
-5. A `.txt` file could have been generated out lining what cleans had been performed on the tables for auditing purposes. As it stands the user when running the `main.py` is able to read the output and get a general idea of how the data table looks before and after a clean via a print(df). A .txt output would enable the user to assess if other columns/factors had been or not been considered.
-
-
-# Project Milestones - Summary
-Refer to the appendix - Project Milestones, for a step-by-step guide on how the project was conducted. Here, you will find answers to several business questions that required querying the `sales_data` database using `SQLTools` and or `pgAdmin 4`.
-
-## **Outcomes from Milestone 1 (Setting up the environment):**
-Prerequisites and setup of laptop and `GitHub` were successful. The project can now be saved and tracked for changes via `Git` and `GitHub`. `VS Code` was used for writing the code.
-
-## **Outcomes from Milestone 2 (Extracting and cleaning the data from the data sources):**
-Milestone 2 continues from Milestone 1. The company's current up-to-date data is stored in a database locally titled `sales_data` in `pgAdmin 4` so that it is accessed from one centralised location and acts as a single point of reference for sales data. Data has been extracted from various sources in JSON, CSV, and PDF formats hosted on different platforms. Data was cleaned using `pandas` and stored in a local `PostgreSQL` database, `pgAdmin 4` using `SQLAlchemy`. Progress was updated to the repository on `GitHub` and code reviewed for better maintainability and efficiency.
-
-A `db_cred.yaml` file was created containing the credentials and subsequently all other future sensitive information. This file was added to `.gitignore` to not upload any sensitive information to the public `GitHub` for security purposes.
-
-Three classes were created in separate `Python` files:
-
-DataExtractor class in `data_extraction.py` for extracting data from different sources.
-DataCleaning class in `data_cleaning.py` for cleaning data extracted from different sources.
-DatabaseConnector class in `database_utils.py` for connecting to and uploading data to the database.
-
-These classes were all called within a `main.py` file where the ETL (Extract, Transform, Load) operations would occur. All the extracted tables were cleaned correctly by checking for NULL values, errors with dates, incorrectly typed values, unnecessary columns, and erroneous values. For the products_details table, the weights were converted to a common unit and cleaned. A summary of the desired table extracted, from what source, connection method required and the name given to the table once uploaded to the database is given below:
-
-        | Table Name       | Source              | Connection Method | Uploaded Table Name |
-        |------------------|---------------------|-------------------|---------------------|
-        | legacy_users     | AWS RDS database    | SQLAlchemy        | dim_users           |
-        | card_details     | AWS S3 bucket (PDF) | tabula-py         | dim_card_details    |
-        | store_details    | API                 | API requests      | dim_store_details   |
-        | products_details | AWS S3 bucket (CSV) | boto3             | dim_products        |
-        | orders_table     | AWS RDS database    | SQLAlchemy        | orders_table        |
-        | date_details     | AWS S3 bucket (JSON)| boto3             | dim_date_times      |
-
-## **Outcomes from Milestone 3 (Creating the database schema):**
-Milestone 3 continues from Milestone 2. Columns in the following tables were all cast to the correct data types using `SQL`, ensuring consistency and accuracy: orders_table, dim_users, dim_store_details, dim_products, dim_date_times, and dim_card_details.
-
-It was found the dim_store_details table did not require merging the 'latitude' columns as the data in the 'lat' column has all been isolated and found to not be of use, and the column dropped.
-
-Changes were made to the dim_products table via `SQL`; removal of '£' from the values of the 'product_price_(gbp)' column and adding a new 'weight_class' column. Also, a column name was altered from 'removed' to 'still available'. Upon changing this column data type to BOOL, it was found the values needed to be updated to reflect 'True' and 'False'. This is where an error was missed from the initial clean due to the values in this column containing 'Removed' and the incorrectly spelt 'Still_available'. The error shown via SQL during the updating of this table had drawn attention to the error that was then addressed.
-
-Primary keys were added to dimension (dim) tables, establishing the foundation for the star-based schema. Foreign keys were created in the orders_table to reference primary keys in other dimension tables, completing the star-based schema. Latest code changes, including schema modifications, were pushed to the GitHub repository, and the README file was updated to reflect the project's progress and structure.
-
-Entity-Relationship Diagram (ERD) for the `sales_data` database in `pgAdmin 4`:
->![ERD for database](_07_images\ERD.png)
-
-## **Outcomes from Milestone 4 (Querying the data):**
-Milestone 4 continues from Milestone 3. Now the schema for the database and all the sales_data is in one location. Queries were run against this for data-driven decisions and to get a better understanding of its sales. Below is an example of a question together with its answer. For all the questions tackled, refer to the appendix 'Milestone 4'. Otherwise see a few examples below: 
-
-Task 1: How many stores does the business have and in which countries?
-The Operations team would like to know which countries we currently operate in and which country now has the most stores. Perform a query on the database to get the information, it should return the following information:
-
-            | country | total_no_stores |       
-            |---------|-----------------|
-            | GB      | 265             |
-            | DE      | 141             |
-            | US      | 34              |
-
-            Note: DE is short for Deutschland (Germany)
-
-Below was the searched query showing a match with the table above showing the total number of stores in each country where the business operates. This provided insight into the geographical distribution of the stores.
-
-```sql
--- Task 1. How many stores does the business have and in which countries?
-SELECT 
-	country_code as country, 
-	COUNT(country_code) as total_no_stores
-FROM 
-	dim_store_details
-WHERE store_type != 'Web Portal'
-GROUP BY 
-	country_code
-ORDER BY 
-	total_no_stores DESC;
-```
-> ![M4T1](_07_images\M4T1.png)  
-
-Task 5: What percentage of sales come through each type of store?
-The sales team wants to know which of the different store types are generating the most revenue so they know where to focus. Find out the total and percentage of sales coming from each of the different store types. The query should return:
-
-            | store_type  | total_sales | percentage_total(%) |
-            |-------------|-------------|---------------------|
-            | Local       | 3440896.52  | 44.87               |
-            | Web portal  | 1726547.05  | 22.44               |
-            | Super Store | 1224293.65  | 15.63               |
-            | Mall Kiosk  | 698791.61   | 8.96                |
-            | Outlet      | 631804.81   | 8.10                |
-
-Below was the searched query showing a match with the table above showing the total sales and percentage contribution from the various store types, aiding in the focus of sales strategies.
-
-```sql
--- Task 5. What percentage of sales come through each type of store?
-WITH sum_of_sales AS (
-    SELECT dsd.store_type, 
-        ROUND(SUM(ot.product_quantity * dp."product_price_(gbp)")::numeric, 2) AS total_sales
-    FROM dim_products AS dp
-    JOIN orders_table AS ot ON dp.product_code = ot.product_code
-    JOIN dim_store_details AS dsd ON ot.store_code = dsd.store_code
-    GROUP BY dsd.store_type
-),
-total_sales_all AS (
-    SELECT ROUND(SUM(ot.product_quantity * dp."product_price_(gbp)")::numeric, 2) AS total_sales
-    FROM dim_products AS dp
-    JOIN orders_table AS ot ON dp.product_code = ot.product_code
-)
-SELECT sum_of_sales.store_type, 
-    ROUND(sum_of_sales.total_sales, 2) AS average_sum_of_payments, 
-    ROUND((sum_of_sales.total_sales / total_sales_all.total_sales) * 100, 2) AS "percentage_total(%)"
-FROM sum_of_sales
-CROSS JOIN total_sales_all
-ORDER BY average_sum_of_payments DESC;
-```
-> ![M4T5](_07_images\M4T5.png)  
-
-Overall, this section focused on developing your skill over the understanding of `SELECT`, `JOIN`, `GROUP BY`, and aggregate functions. The ability to break down complex queries using subqueries and CTEs. Being able to aggregate data for insight. It developed competence in being able to manipulate data for meaningful insights. It allowed the ability to analyse trends and present findings visually. Familiarity was gained with the database schema structure, which made for more efficient querying. It helped with problem-solving skills in the capacity to interpret business needs and translate them into effective `SQL` queries. Overall, these skills empower efficient querying and help to facilitate informed decision-making.
 
 # Installation instructions
 From the main/root directory of the project folder, follow these steps:
 
 1. cd into the directory and then in the command line:
     ```bash
-    git clone https://github.com/chemi5t/multinational-retail-data-centralisation.git
+    git clone https://github.com/chemi5t/pinterest-data-pipeline905.git
     ```
 2. Set up a virtual environment for the project:
     ```bash
-    conda create --name mrdc_env
+    conda create --name pinterest_env
     ```
     ```bash
-    conda activate mrdc_env
+    conda activate pinterest_env
     ```
     ```bash
     pip install -r requirements.txt
     ```
-- Packages of note:
+- Packages of note:                 ########### update this ###########
     - boto3==1.34.21 
     - nbformat==5.9.2 
     - numpy==1.26.2 
@@ -231,17 +47,401 @@ From the main/root directory of the project folder, follow these steps:
     - requests==2.31.0 
     - SQLAlchemy==2.0.23 
     - tabula-py==2.9.0
-3. Set up a `PostgreSQL` database named `sales_data` using a client of your choice i.e. `pgAdmin 4`.
-4. Save your database credentials to `db_creds.yaml` for security and to enable data extraction from various sources. Detailed instructions on setting up the database and configuring credentials can be found in Milestone 2.
+3. Create and set up AWS and Databricks accounts.
+4. Save your database credentials to `db_creds.yaml` for security and to enable data extraction/uploads from/to various sources. Detailed instructions on setting these up and configuring credentials can be found wothin the Milestones explained later.
+
+that contains only the year from the timestamp column
+      number_users_joined, a new column containing the desired query output
+
+
+# Summary of Project Milestones 
+
+## Batch Processing:
+
+- ### **Outcomes from Milestone 1 (Setting up the environment)**
+
+`GitHub` was successfully set up to allow the project to be saved and tracked for changes via `Git` and `GitHub`. `VSCode` was used for writing the code.
+
+This project uses different services running in the AWS Cloud and thus an AWS Cloud Account is required. 
+
+- ### **Outcomes from Milestone 2 (Creating Pinterest infrastructure via AWS RDS database)**
+
+The Pinterest infrastructure is replicated to resemble the environment of a data engineer at Pinterest. 
+
+A `user_posting_emulation_basic.py` script is developed, containing RDS database login credentials. The RDS database comprises three tables (pinterest_data, geolocation_data, and user_data) mimicking data obtained from user POST requests to Pinterest:
+
+`pinterest_data`: Information about posts updated to Pinterest.
+`geolocation_data`: Geographic data corresponding to posts in `pinterest_data`.
+`user_data`: User information linked to posts in `pinterest_data`.
+
+A `db_creds.yaml` file is created to store database credentials securely and excluded from version control using .gitignore.
+
+The script continuously executes, emulating user posting behavior by connecting to the RDS database via SQLAlchemy. It fetches random rows from each table (pin_result, geo_result, and user_result), simulating user activity. The key-value pairing in the dictionaries are noted for later analysis.
+
+```python
+(base) 
+chemi@DELL-laptop MINGW64 ~/AiCore_Projects/pinterest-data-pipeline905 (main)
+$ python user_posting_emulation_basic.py 
+**************************************************
+pin result:  {'index': 7528, 'unique_id': 'fbe53c66-3442-4773-b19e-d3ec6f54dddf', 'title': 'No Title Data Available', 'description': 'No description available Story format', 'poster_name': 'User Info Error', 'follower_count': 'User Info Error', 'tag_list': 'N,o, ,T,a,g,s, ,A,v,a,i,l,a,b,l,e', 'is_image_or_video': 'multi-video(story page format)', 'image_src': 'Image src error.', 'downloaded': 0, 'save_location': 'Local save in /data/mens-fashion', 'category': 'mens-fashion'}
+
+geo result:  {'ind': 7528, 'timestamp': datetime.datetime(2020, 8, 28, 3, 52, 47), 'latitude': -89.9787, 'longitude': -173.293, 'country': 'Albania'}
+
+user result:  {'ind': 7528, 'first_name': 'Abigail', 'last_name': 'Ali', 'age': 20, 'date_joined': datetime.datetime(2015, 10, 24, 11, 23, 51)}
+**************************************************
+```
+
+Next, log into the AWS console keeping safe your credentials:
+
+- AWS Account ID: <your_AWSId>
+- IAM user name: <your_UserId>
+- Password: <your_Password>
+- The above are values to be replaced by your own and where ever mentioned herein
+
+When using any of the AWS services, make sure to work in `us-east-1` region throughout the project.
+
+- ### **Outcomes from Milestone 3 (Batch processing: Configuring the EC2 Kafka client)**
+
+Install `Kafka` and the `IAM MSK authentication package` on the client `EC2` machine.
+Retrieve and note the `IAM role ARN` (<your_UserId>-ec2-access-role) for cluster authentication.
+Configure `Kafka` client for `IAM authentication`. Modify the `client.properties` file in the `Kafka` installation directory to enable `AWS IAM authentication`.
+Create `Kafka` topics by retrieving the `Bootstrap servers` string and the Plaintext `Apache Zookeeper` connection string from the `MSK` Management Console.
+Create three topics: 
+- `<your_UserId>.pin` for Pinterest posts data, 
+- `<your_UserId>.geo` for post geolocation data, and 
+- `<your_UserId>.user` for post user data.
+
+For further details follow - [Milestone 3 outline](chapters_for_readme/milestone_3.md)
+
+- ### **Outcomes from Milestone 4 (Batch Processing: Connect a MSK cluster to a S3 bucket)**
+
+For this project it was not required to create a S3 bucket, an IAM role that allows you to write to this bucket or a VPC Endpoint to S3, as these had already been configured for the AWS account.
+
+In this milestone, MSK Connect is utilised to establish a connection between the MSK cluster and an S3 bucket, enabling automatic data storage for all cluster data.
+
+A custom plugin is created with `MSK Connect`.
+Navigate to the `S3` console and locate the bucket associated with your <your_UserId> (`user-<your_UserId>-bucket`).
+Download the `Confluent.io Amazon S3 Connector` on your `EC2` client and transfer it to the identified `S3` bucket.
+Create a custom plugin named `<your_UserId>-plugin` in the `MSK Connect` console.
+Create a connector with `MSK Connect` named `<your_UserId>-connector` in the `MSK Connect` console.
+Configure the connector with the correct bucket name (`user-<your_UserId>-bucket`) and ensure the `topics.regex` field follows the format `<your_UserId>.*`.
+Assign the `IAM role` used for authentication to the MSK cluster (`<your_UserId>-ec2-access-role`) in the Access permissions tab.
+Upon completing these tasks, data passing through the `IAM authenticated` cluster will be automatically stored in the designated `S3` bucket.
+
+For further details follow - [Milestone 4 outline](chapters_for_readme/milestone_4.md)
+
+- ### **Outcomes from Milestone 5 (Batch Processing: Configuring an API in API Gateway):**
+This milestone focuses on building an API to replicate Pinterest's experimental data pipeline. The API will send data to the MSK cluster, which will then be stored in an S3 bucket using the previously configured connector.
+
+A Kafka REST proxy integration method is built for the API. A resource is created for the API to enable a PROXY integration.
+A HTTP ANY method is set up for the resource, ensuring the Endpoint URL reflects the correct PublicDNS of the EC2 machine associated with <your_UserId>.
+The API is deployed and the Invoke URL noted for future reference.
+
+The Kafka REST proxy is set up on the EC2 client by installing the Confluent package for the Kafka REST proxy on the EC2 client machine.
+The kafka-rest.properties file is configured to allow the REST proxy to perform IAM authentication to the MSK cluster.
+The REST proxy on the EC2 client machine is started.
+Then send data to the API after modifying the `user_posting_emulation_basic.py` script to `user_posting_emulation_batch.py` and send data to the Kafka topics via the `API Invoke URL`.
+Confirm data storage in the `S3` bucket, observing the folder organisation created by the `connector`.
+
+For further details follow - [Milestone 5 outline](chapters_for_readme/milestone_5.md)
+
+- ### **Outcomes from Milestone 6 (Batch processing: Databricks)**
+This milestone focuses on setting up a Databricks account and learning to read data from AWS into Databricks.
+
+Set up your own Databricks account followed by mounting the previously created S3 bucket to Databricks.
+Mount the desired S3 bucket to the Databricks account to access the batch data.
+The Databricks account has full access to S3, eliminating the need to create a new `Access Key` and Secret Access Key`.
+Read data from the Delta table located at `dbfs:/user/hive/warehouse/authentication_credentials`.
+Ensure complete paths to `JSON` objects when reading from S3 (e.g. topics/<your_UserId>.pin/partition=0/).
+Create three DataFrames: 
+
+- df_pin for Pinterest post data, 
+- df_geo for geolocation data, and 
+- df_user for user data
+
+Task 4: GitHub
+Save the code created in Databricks to your local project repository.
+
+This summary outlines the tasks involved in configuring Databricks, mounting an S3 bucket, reading data, and updating the GitHub repository with the latest code changes.
+
+For further details follow - [Milestone 6 outline](chapters_for_readme/milestone_6.md)
+
+- ### **Outcomes from Milestone 6 (Batch processing: Databricks)**
+
+M7: Batch Processing: Spark on Databricks
+
+Learn how to perform data cleaning and computations using Spark on Databricks.
+
+Task 1: Clean the DataFrame tha contains information about Pinterest posts.
+
+To clean the df_pin DataFrame you should perform the following transformations:
+
+Replace empty entries and entries with no relevant data in each column with Nones
+Perform the necessary transformations on the follower_count to ensure every entry is a number. Make sure the data type of this column is an int.
+Ensure that each column containing numeric data has a numeric data type
+Clean the data in the save_location column to include only the save location path
+Rename the index column to ind.
+Reorder the DataFrame columns to have the following column order:
+ind
+unique_id
+title
+description
+follower_count
+poster_name
+tag_list
+is_image_or_video
+image_src
+save_location
+category
+
+Task 2: Clean the DF that contains information about geolocations.
+
+To clean the df_geo DataFrame you should perform the following transformations:
+
+Create a new column coordinates that contains an array based on the latitude and longitude columns
+Drop the latitude and longitude columns from the DataFrame
+Convert the timestamp column from a string to a timestamp data type
+Reorder the DataFrame columns to have the following column order:
+ind
+country
+coordinates
+timestamp
+Getting stuck on this task? 
+
+Task 3: Clean the  DF that contains information about users.
+
+To clean the df_user DataFrame you should perform the following transformations:
+
+Create a new column user_name that concatenates the information found in the first_name and last_name columns
+Drop the first_name and last_name columns from the DataFrame
+Convert the date_joined column from a string to a timestamp data type
+Reorder the DataFrame columns to have the following column order:
+ind
+user_name
+age
+date_joined
+
+Task 4: Find the most popular category in each country.
+
+Q1. Find the most popular Pinterest category people post to based on their country.
+
+
+Your query should return a DataFrame that contains the following columns:
+
+country
+category
+category_count, a new column containing the desired query output
+
+Task 5: Find which was the most popular category each year.
+
+Q2. Find how many posts each category had between 2018 and 2022.
+
+    Your query should return a DataFrame that contains the following columns:
+    
+        post_year, a new column that contains only the year from the timestamp column
+        category
+        category_count, a new column containing the desired query output
+
+Task 6: Find the user with the most followers in each coutnry.
+
+Q3. Find the user with the most followers in each country.
+
+    Step 1: For each country find the user with the most followers.
+
+      Your query should return a DataFrame that contains the following columns:
+
+      country
+      poster_name
+      follower_count
+    
+    Step 2: Based on the above query, find the country with the user with most followers.
+
+      Your query should return a DataFrame that contains the following columns:
+
+      country
+      follower_count
+      This DataFrame should have only one entry.
+
+Task 7: Find the most popular category for different age groups.
+
+    Q4. What is the most popular category people post to based on the following age groups:
+
+      18-24
+      25-35
+      36-50
+      +50
+
+      Your query should return a DataFrame that contains the following columns:
+
+      age_group, a new column based on the original age column
+      category
+      category_count, a new column containing the desired query output
+      Getting stuck on this task? Click here to book a call to one of our support engineers
+
+Task 8: Find the median follower count for different age groups.
+    
+    Q5. What is the median follower count for users in the following age groups:
+
+      18-24
+      25-35
+      36-50
+      +50
+      
+      Your query should return a DataFrame that contains the following columns:
+
+      age_group, a new column based on the original age column
+      median_follower_count, a new column containing the desired query output
+
+Task 9: Q6. Find how many users have joined each year?
+    Find how many users have joined between 2015 and 2020.
+
+      Your query should return a DataFrame that contains the following columns:
+
+      post_year, a new column that contains only the year from the timestamp column
+      number_users_joined, a new column containing the desired query output
+
+
+
+Task 10:  Q7. Find the median follower count of users based on their joining year.
+
+    Find the median follower count of users have joined between 2015 and 2020.
+
+      Your query should return a DataFrame that contains the following columns:
+
+      post_year, a new column that contains only the year from the timestamp column
+      median_follower_count, a new column containing the desired query output
+      
+Task 11: Q8. Find the median follower count of users based on their joining year and age group.
+
+    Find the median follower count of users that have joined between 2015 and 2020, based on which age group they are part of.
+
+      Your query should return a DataFrame that contains the following columns:
+
+      age_group, a new column based on the original age column
+      post_year, a new column that contains only the year from the timestamp column
+      median_follower_count, a new column containing the desired query output
+
+Task 12: document
+
+Task 13: 
+Save the queries you have created in Databricks to your local project repository.
+
+Update your GitHub repository with the latest code changes from your local project. Start by staging your modifications and creating a commit. Then, push the changes to your GitHub repository.
+
+M8: Batch Processing: AWS MWAA
+
+You will orchestrate Databricks Workloads on AWS MWAA
+
+Task 1: Create and upload a DAG to a MWAA enviroment
+
+Your AWS account has been already been provided with access to a MWAA environment Databricks-Airflow-env and to its S3 bucket mwaa-dags-bucket. Thus, you will not be required to create an API token in Databricks to connect to your AWS account, to set up the MWAA-Databricks connection or to create the requirements.txt file.
+
+
+You will only need to create an Airflow DAG that will trigger a Databricks Notebook to be run on a specific schedule. This DAG should be uploaded to the dags folder in the mwaa-dags-bucket.
+
+
+Your AWS account has been granted permissions to upload and update the following file <your_UserId_dag.py> to the mwaa-dags-bucket. Make sure to give your DAG the correct name, otherwise you will run into permission errors. Be careful to also name the DAG inside the <your_UserId_dag.py> as such: <your_UserId_dag>. You should schedule the DAG to run daily.
+
+
+Task 2: Trigger a DAG that runs a Databricks Notebook
+
+Manually trigger the DAG you have uploaded in the previous step and check it runs successfully.
+
+Task 3: document
+
+Task 4: GitHub
+
+Upload the DAG you have created from your local project repository to GitHub.
+
+
+Update your GitHub repository with the latest code changes from your local project. Start by staging your modifications and creating a commit. Then, push the changes to your GitHub repository.
+
+M9: Stream Processing: AWS Kinesis
+
+Send streaming data to Kinesis and read this data in Databricks
+
+Task 1: Create data streams using Kinesis Data Streams
+
+Using Kinesis Data Streams create three data streams, one for each Pinterest table.
+
+
+Your AWS account has only been granted permissions to create and describe the following streams:
+
+streaming-<your_UserId>-pin
+streaming-<your_UserId>-geo
+streaming-<your_UserId>-user
+Make sure you follow the correct nomenclature, otherwise you will run into permission errors when creating the streams.
+
+Task 2: Configure an API with Kinesis proxy integration
+
+Configure your previously created REST API to allow it to invoke Kinesis actions. Your AWS account has been granted the necessary permissions to invoke Kinesis actions, so you will not need to create an IAM role for your API to access Kinesis.
+
+
+The access role you have been provided with has the following structure: <your_UserId-kinesis-access-role>. You can copy the ARN of this role from the IAM console, under Roles. This is the ARN you should be using when setting up the Execution role for the integration point of all the methods you will create.
+
+
+Your API should be able to invoke the following actions:
+
+List streams in Kinesis
+Create, describe and delete streams in Kinesis
+Add records to streams in Kinesis
+
+Task 3: Send data to the Kinesis streams
+
+Create a new script user_posting_emulation_streaming.py, that builds upon the initial user_posting_emulation.py you have been provided with.
+
+
+In this script, you should send requests to your API, which adds one record at a time to the streams you have created. You should send data from the three Pinterest tables to their corresponding Kinesis stream.
+
+
+Make sure your database credentials are encoded in a separate, hidden db_creds.yaml file.
+
+Task 4: Read data from Kinesis streams in Databricks
+
+Step 1:
+Create a new Notebook in Databricks and read in your credentials from the Delta table, located at dbfs:/user/hive/warehouse/authentication_credentials, to retrieve the Access Key and Secret Access Key. Follow the same process for this, as you have followed for your batch data.
+
+
+Step 2:
+
+Run your preferred method to ingest data into Kinesis Data Streams. In the Kinesis console, check your data streams are receiving the data.
+
+
+Step 3:
+
+Read the data from the three streams you have created in your Databricks Notebook.
+
+Task 5: Transforms orm Kinesis streams in Databricks
+
+Clean the streaming data in the same way you have previously cleaned the batch data.
+
+Task 6: Write the streaming data to Delta Tables
+
+Once the streaming data has been cleaned, you should save each stream in a Delta Table. You should save the following tables: <your_UserId>_pin_table, <your_UserId>_geo_table and <your_UserId>_user_table.
+
+Task 7: Document your exp
+
+Task 8: GitHub
+
+Save the code you have created in Databricks to your local project repository.
+
+
+Update your GitHub repository with the latest code changes from your local project. Start by staging your modifications and creating a commit. Then, push the changes to your GitHub repository.
+
+Finally, you can upload the diagram of the architecture you created using this template .
 
 # Usage instructions
 
-1. Run the `main.py` to execute the data extraction, cleaning, and database creation processes in the `/root` folder via the terminal in `VS Code`.
+1. Batch processing
+2. Steam Processing
+3. Data Querying 
+
+<!-- 1. Run the `main.py` to execute the data extraction, cleaning, and database creation processes in the `/root` folder via the terminal in `VS Code`.
     ```bash
     python main.py
     ```
 2. Execute `_05_SQL\_01_star_schema_sales_data.sql` script via `pgAdmin 4` or `SQLTools` in `VS Code`; or any other tool you prefer for interacting with `PostgreSQL`. This sets up the star-schema in the `sales_data` database. ERD can be found in milestone 3.
-3. Similarly run `_05_SQL\_02_queries.sql` which answers questions posed by the business by querying the `sales_data` database.
+3. Similarly run `_05_SQL\_02_queries.sql` which answers questions posed by the business by querying the `sales_data` database. -->
 
 # File structure of the project
 
@@ -315,12 +515,14 @@ Screen shot of EXPLORER from `VS Code` containing the above contents:
 
 # Languages
 
-- Python
-- SQL
+<!-- - Python
+- SQL -->
 
 # License information
 
-This project is licensed under the terms of the [MIT License](LICENSE.md). Please see the [LICENSE.md](LICENSE.md) file for details.
+<!-- This project is licensed under the terms of the [MIT License](LICENSE.md). Please see the [LICENSE.md](LICENSE.md) file for details. -->
 
-# Appendix
+
+
+
 
