@@ -146,182 +146,36 @@ Confirm data storage in the `S3` bucket, observing the folder organisation creat
 For further details follow - [Milestone 5 outline](documentations/milestone_5.md)
 
 - ### **Outcomes from Milestone 6 (Batch processing: Databricks)**
-This milestone focuses on setting up a Databricks account and learning to read data from AWS into Databricks.
+This milestone focuses on setting up a `Databricks` account and learning to read data from `AWS` into `Databricks`.
 
-Set up your own Databricks account followed by mounting the previously created S3 bucket to Databricks.
+Set up your own `Databricks` account followed by mounting the previously created `S3` bucket to `Databricks`.
 Mount the desired S3 bucket to the Databricks account to access the batch data.
-The Databricks account has full access to S3, eliminating the need to create a new `Access Key` and `Secret Access Key`.
-Read data from the Delta table located at `dbfs:/user/hive/warehouse/authentication_credentials`.
-Ensure complete paths to `JSON` objects when reading from S3 (e.g. topics/<your_UserId>.pin/partition=0/).
+The `Databricks` account has full access to `S3`, eliminating the need to create a new `Access Key` and `Secret Access Key`.
+Read data from the `Delta table` located at `dbfs:/user/hive/warehouse/authentication_credentials`.
+Ensure complete paths to `JSON` objects when reading from `S3` (e.g. topics/<your_UserId>.pin/partition=0/).
 Create three DataFrames: 
 
-- df_pin for Pinterest post data
-- df_geo for geolocation data
-- df_user for user data
+- `df_pin` for Pinterest post data
+- `df_geo` for geolocation data
+- `df_user` for user data
 
-This summary outlines the tasks involved in configuring Databricks, mounting an S3 bucket and reading data.
+This summary outlines the tasks involved in configuring `Databricks`, mounting an `S3` bucket and reading data.
 
 For further details follow - [Milestone 6 outline](databricks/_1_mount_s3_to_databricks.ipynb)
 
 - ### **Outcomes from Milestone 7 (Batch processing: Spark on Databricks)**
 
-Learn how to perform data cleaning and computations using Spark on Databricks.
+Perform data cleaning and computations using Spark on Databricks. Apply this to all 3 PySpark DataFrames:
 
-Task 1: Clean the DataFrame tha contains information about Pinterest posts.
+- `df_pin` for Pinterest post data
+- `df_geo` for geolocation data
+- `df_user` for user data
 
-To clean the df_pin DataFrame you should perform the following transformations:
+For further details follow - [Milestone 7 df cleaning outline](databricks/_2_batch_data_processing_from_mounted_s3.ipynb)
 
-Replace empty entries and entries with no relevant data in each column with Nones
-Perform the necessary transformations on the follower_count to ensure every entry is a number. Make sure the data type of this column is an int.
-Ensure that each column containing numeric data has a numeric data type
-Clean the data in the save_location column to include only the save location path
-Rename the index column to ind.
-Reorder the DataFrame columns to have the following column order:
-ind
-unique_id
-title
-description
-follower_count
-poster_name
-tag_list
-is_image_or_video
-image_src
-save_location
-category
+It was also demonstrated how valuable insights could be produced by joining the 3 dataframes via the execution of SQL queries.
 
-Task 2: Clean the DF that contains information about geolocations.
-
-To clean the df_geo DataFrame you should perform the following transformations:
-
-Create a new column coordinates that contains an array based on the latitude and longitude columns
-Drop the latitude and longitude columns from the DataFrame
-Convert the timestamp column from a string to a timestamp data type
-Reorder the DataFrame columns to have the following column order:
-ind
-country
-coordinates
-timestamp
-Getting stuck on this task? 
-
-Task 3: Clean the  DF that contains information about users.
-
-To clean the df_user DataFrame you should perform the following transformations:
-
-Create a new column user_name that concatenates the information found in the first_name and last_name columns
-Drop the first_name and last_name columns from the DataFrame
-Convert the date_joined column from a string to a timestamp data type
-Reorder the DataFrame columns to have the following column order:
-ind
-user_name
-age
-date_joined
-
-Task 4: Find the most popular category in each country.
-
-Q1. Find the most popular Pinterest category people post to based on their country.
-
-
-Your query should return a DataFrame that contains the following columns:
-
-country
-category
-category_count, a new column containing the desired query output
-
-Task 5: Find which was the most popular category each year.
-
-Q2. Find how many posts each category had between 2018 and 2022.
-
-    Your query should return a DataFrame that contains the following columns:
-    
-        post_year, a new column that contains only the year from the timestamp column
-        category
-        category_count, a new column containing the desired query output
-
-Task 6: Find the user with the most followers in each coutnry.
-
-Q3. Find the user with the most followers in each country.
-
-    Step 1: For each country find the user with the most followers.
-
-      Your query should return a DataFrame that contains the following columns:
-
-      country
-      poster_name
-      follower_count
-    
-    Step 2: Based on the above query, find the country with the user with most followers.
-
-      Your query should return a DataFrame that contains the following columns:
-
-      country
-      follower_count
-      This DataFrame should have only one entry.
-
-Task 7: Find the most popular category for different age groups.
-
-    Q4. What is the most popular category people post to based on the following age groups:
-
-      18-24
-      25-35
-      36-50
-      +50
-
-      Your query should return a DataFrame that contains the following columns:
-
-      age_group, a new column based on the original age column
-      category
-      category_count, a new column containing the desired query output
-      Getting stuck on this task? Click here to book a call to one of our support engineers
-
-Task 8: Find the median follower count for different age groups.
-    
-    Q5. What is the median follower count for users in the following age groups:
-
-      18-24
-      25-35
-      36-50
-      +50
-      
-      Your query should return a DataFrame that contains the following columns:
-
-      age_group, a new column based on the original age column
-      median_follower_count, a new column containing the desired query output
-
-Task 9: Q6. Find how many users have joined each year?
-    Find how many users have joined between 2015 and 2020.
-
-      Your query should return a DataFrame that contains the following columns:
-
-      post_year, a new column that contains only the year from the timestamp column
-      number_users_joined, a new column containing the desired query output
-
-
-
-Task 10:  Q7. Find the median follower count of users based on their joining year.
-
-    Find the median follower count of users have joined between 2015 and 2020.
-
-      Your query should return a DataFrame that contains the following columns:
-
-      post_year, a new column that contains only the year from the timestamp column
-      median_follower_count, a new column containing the desired query output
-      
-Task 11: Q8. Find the median follower count of users based on their joining year and age group.
-
-    Find the median follower count of users that have joined between 2015 and 2020, based on which age group they are part of.
-
-      Your query should return a DataFrame that contains the following columns:
-
-      age_group, a new column based on the original age column
-      post_year, a new column that contains only the year from the timestamp column
-      median_follower_count, a new column containing the desired query output
-
-Task 12: document
-
-Task 13: 
-Save the queries you have created in Databricks to your local project repository.
-
-Update your GitHub repository with the latest code changes from your local project. Start by staging your modifications and creating a commit. Then, push the changes to your GitHub repository.
+For further details follow - [Milestone 7 SQL queries](databricks/_3_pinterest_queries.ipynb)
 
 
 - ### **Outcomes from Milestone 8 (Batch processing: AWS MWAA)**
