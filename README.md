@@ -111,7 +111,7 @@ Create three topics:
 - `<your_UserId>.geo` for post geolocation data, and 
 - `<your_UserId>.user` for post user data.
 
-For further details follow - [Milestone 3 outline](chapters_for_readme/milestone_3.md)
+For further details follow - [Milestone 3 outline](documentations/milestone_3.md)
 
 - ### **Outcomes from Milestone 4 (Batch Processing: Connect a MSK cluster to a S3 bucket)**
 
@@ -128,7 +128,7 @@ Configure the connector with the correct bucket name (`user-<your_UserId>-bucket
 Assign the `IAM role` used for authentication to the MSK cluster (`<your_UserId>-ec2-access-role`) in the Access permissions tab.
 Upon completing these tasks, data passing through the `IAM authenticated` cluster will be automatically stored in the designated `S3` bucket.
 
-For further details follow - [Milestone 4 outline](chapters_for_readme/milestone_4.md)
+For further details follow - [Milestone 4 outline](documentations/milestone_4.md)
 
 - ### **Outcomes from Milestone 5 (Batch Processing: Configuring an API in API Gateway):**
 This milestone focuses on building an API to replicate Pinterest's experimental data pipeline. The API will send data to the MSK cluster, which will then be stored in an S3 bucket using the previously configured connector.
@@ -143,32 +143,27 @@ The REST proxy on the EC2 client machine is started.
 Then send data to the API after modifying the `user_posting_emulation_basic.py` script to `user_posting_emulation_batch.py` and send data to the Kafka topics via the `API Invoke URL`.
 Confirm data storage in the `S3` bucket, observing the folder organisation created by the `connector`.
 
-For further details follow - [Milestone 5 outline](chapters_for_readme/milestone_5.md)
+For further details follow - [Milestone 5 outline](documentations/milestone_5.md)
 
 - ### **Outcomes from Milestone 6 (Batch processing: Databricks)**
 This milestone focuses on setting up a Databricks account and learning to read data from AWS into Databricks.
 
 Set up your own Databricks account followed by mounting the previously created S3 bucket to Databricks.
 Mount the desired S3 bucket to the Databricks account to access the batch data.
-The Databricks account has full access to S3, eliminating the need to create a new `Access Key` and Secret Access Key`.
+The Databricks account has full access to S3, eliminating the need to create a new `Access Key` and `Secret Access Key`.
 Read data from the Delta table located at `dbfs:/user/hive/warehouse/authentication_credentials`.
 Ensure complete paths to `JSON` objects when reading from S3 (e.g. topics/<your_UserId>.pin/partition=0/).
 Create three DataFrames: 
 
-- df_pin for Pinterest post data, 
-- df_geo for geolocation data, and 
+- df_pin for Pinterest post data
+- df_geo for geolocation data
 - df_user for user data
 
-Task 4: GitHub
-Save the code created in Databricks to your local project repository.
+This summary outlines the tasks involved in configuring Databricks, mounting an S3 bucket and reading data.
 
-This summary outlines the tasks involved in configuring Databricks, mounting an S3 bucket, reading data, and updating the GitHub repository with the latest code changes.
+For further details follow - [Milestone 6 outline](databricks/_1_mount_s3_to_databricks.ipynb)
 
-For further details follow - [Milestone 6 outline](chapters_for_readme/milestone_6.md)
-
-- ### **Outcomes from Milestone 6 (Batch processing: Databricks)**
-
-M7: Batch Processing: Spark on Databricks
+- ### **Outcomes from Milestone 7 (Batch processing: Spark on Databricks)**
 
 Learn how to perform data cleaning and computations using Spark on Databricks.
 
@@ -328,7 +323,8 @@ Save the queries you have created in Databricks to your local project repository
 
 Update your GitHub repository with the latest code changes from your local project. Start by staging your modifications and creating a commit. Then, push the changes to your GitHub repository.
 
-M8: Batch Processing: AWS MWAA
+
+- ### **Outcomes from Milestone 8 (Batch processing: AWS MWAA)**
 
 You will orchestrate Databricks Workloads on AWS MWAA
 
@@ -356,7 +352,8 @@ Upload the DAG you have created from your local project repository to GitHub.
 
 Update your GitHub repository with the latest code changes from your local project. Start by staging your modifications and creating a commit. Then, push the changes to your GitHub repository.
 
-M9: Stream Processing: AWS Kinesis
+
+- ### **Outcomes from Milestone 9 (Stream Processing: AWS Kinesis)**
 
 Send streaming data to Kinesis and read this data in Databricks
 
