@@ -2,6 +2,7 @@ from airflow import DAG
 from airflow.providers.databricks.operators.databricks import DatabricksSubmitRunOperator, DatabricksRunNowOperator
 from datetime import datetime, timedelta 
 
+########## NB: Replace <your_UserId> with your own details ##########
 
 #Define params for Submit Run Operator
 notebook_task = {
@@ -25,7 +26,7 @@ default_args = {
 }
 
 
-with DAG('0ea287818623_dag',
+with DAG('<your_UserId>_dag',
     # should be a datetime format
     start_date=datetime(2024, 4, 24),
     # check out possible intervals, should be a string

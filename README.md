@@ -56,7 +56,7 @@ that contains only the year from the timestamp column
 
 # Summary of Project Milestones 
 
-## Batch Processing:
+## Data Emulation:
 
 - ### **Outcomes from Milestone 1 (Setting up the environment)**
 
@@ -99,6 +99,8 @@ Next, log into the AWS console keeping safe your credentials:
 - The above are values to be replaced by your own and where ever mentioned herein
 
 When using any of the AWS services, make sure to work in `us-east-1` region throughout the project.
+
+## Batch Processing:
 
 - ### **Outcomes from Milestone 3 (Batch processing: Configuring the EC2 Kafka client)**
 
@@ -180,7 +182,7 @@ For further details follow - [Milestone 7 SQL queries](databricks/_3_pinterest_q
 
 - ### **Outcomes from Milestone 8 (Batch processing: AWS MWAA)**
 
-You will orchestrate Databricks Workloads on AWS MWAA
+Databricks Workloads are orchestrated on AWS MWAA (Managed Workflows for Apache Airflow).
 
 Task 1: Create and upload a DAG to a MWAA enviroment
 
@@ -190,7 +192,7 @@ Your AWS account has been already been provided with access to a MWAA environmen
 You will only need to create an Airflow DAG that will trigger a Databricks Notebook to be run on a specific schedule. This DAG should be uploaded to the dags folder in the mwaa-dags-bucket.
 
 
-Your AWS account has been granted permissions to upload and update the following file <your_UserId_dag.py> to the mwaa-dags-bucket. Make sure to give your DAG the correct name, otherwise you will run into permission errors. Be careful to also name the DAG inside the <your_UserId_dag.py> as such: <your_UserId_dag>. You should schedule the DAG to run daily.
+Your AWS account has been granted permissions to upload and update the following file `<your_UserId>_dag.py` to the mwaa-dags-bucket. Make sure to give your DAG the correct name, otherwise you will run into permission errors. Be careful to also name the DAG inside the <your_UserId_dag.py> as such: <your_UserId_dag>. You should schedule the DAG to run daily.
 
 
 Task 2: Trigger a DAG that runs a Databricks Notebook
@@ -206,6 +208,7 @@ Upload the DAG you have created from your local project repository to GitHub.
 
 Update your GitHub repository with the latest code changes from your local project. Start by staging your modifications and creating a commit. Then, push the changes to your GitHub repository.
 
+## Stream Processing:
 
 - ### **Outcomes from Milestone 9 (Stream Processing: AWS Kinesis)**
 
