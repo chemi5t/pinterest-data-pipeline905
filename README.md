@@ -70,9 +70,9 @@ The Pinterest infrastructure is replicated to resemble the environment of a data
 
 A `user_posting_emulation_basic.py` script is developed, containing RDS database login credentials. The RDS database comprises three tables (pinterest_data, geolocation_data, and user_data) mimicking data obtained from user POST requests to Pinterest:
 
-`pinterest_data`: Information about posts updated to Pinterest.
-`geolocation_data`: Geographic data corresponding to posts in `pinterest_data`.
-`user_data`: User information linked to posts in `pinterest_data`.
+- `pinterest_data`: Information about posts updated to Pinterest.
+- `geolocation_data`: Geographic data corresponding to posts in `pinterest_data`.
+- `user_data`: User information linked to posts in `pinterest_data`.
 
 A `db_creds.yaml` file is created to store database credentials securely and excluded from version control using .gitignore.
 
@@ -182,107 +182,36 @@ For further details follow - [Milestone 7 SQL queries](databricks/_3_pinterest_q
 
 - ### **Outcomes from Milestone 8 (Batch processing: AWS MWAA)**
 
-Databricks Workloads are orchestrated on AWS MWAA (Managed Workflows for Apache Airflow).
+Databricks Workloads are orchestrated on `AWS MWAA` (Managed Workflows for Apache Airflow).
 
-Task 1: Create and upload a DAG to a MWAA enviroment
+Create and upload a `DAG` to a `AWS MWAA` environment. Access to a `MWAA` environment `Databricks-Airflow-env` and to its `S3` bucket `mwaa-dags-bucket` had been provided. Thus, not required to create an API token in Databricks to connect to the `AWS` account, to set up the `MWAA-Databricks connection` or to create the `requirements.txt` file.
 
-Your AWS account has been already been provided with access to a MWAA environment Databricks-Airflow-env and to its S3 bucket mwaa-dags-bucket. Thus, you will not be required to create an API token in Databricks to connect to your AWS account, to set up the MWAA-Databricks connection or to create the requirements.txt file.
+An `Airflow DAG `was created that triggers a Databricks Notebook to be run on a specific schedule. This `DAG` was uploaded to the dags folder in the `mwaa-dags-bucket` with the follwoing naming, `<your_UserId>_dag.py`.
 
+Manually trigger the DAG and verify its successful execution.
 
-You will only need to create an Airflow DAG that will trigger a Databricks Notebook to be run on a specific schedule. This DAG should be uploaded to the dags folder in the mwaa-dags-bucket.
-
-
-Your AWS account has been granted permissions to upload and update the following file `<your_UserId>_dag.py` to the mwaa-dags-bucket. Make sure to give your DAG the correct name, otherwise you will run into permission errors. Be careful to also name the DAG inside the <your_UserId_dag.py> as such: <your_UserId_dag>. You should schedule the DAG to run daily.
-
-
-Task 2: Trigger a DAG that runs a Databricks Notebook
-
-Manually trigger the DAG you have uploaded in the previous step and check it runs successfully.
-
-Task 3: document
-
-Task 4: GitHub
-
-Upload the DAG you have created from your local project repository to GitHub.
-
-
-Update your GitHub repository with the latest code changes from your local project. Start by staging your modifications and creating a commit. Then, push the changes to your GitHub repository.
+For further details follow - [Milestone 8 outline](documentations/milestone_8.md)
 
 ## Stream Processing:
 
 - ### **Outcomes from Milestone 9 (Stream Processing: AWS Kinesis)**
 
-Send streaming data to Kinesis and read this data in Databricks
+Finally for streaming data, data is sent to Kinesis and read into Databricks.
 
-Task 1: Create data streams using Kinesis Data Streams
+Kinesis Data Streams is used to create three streams for the Pinterest data: 
 
-Using Kinesis Data Streams create three data streams, one for each Pinterest table.
+- streaming-<your_UserId>-pin
+- streaming-<your_UserId>-geo  
+- streaming-<your_UserId>-user
 
+An API is reconfigured with Kinesis Proxy Integration. This requires the creation of a new script, [user_posting_emulation_streaming.py](user_posting_emulation_streaming.py); that sends data from Pinterest tables to corresponding `Kinesis streams` via `API requests`.
 
-Your AWS account has only been granted permissions to create and describe the following streams:
+Databricks then cleans the ingests streamed data from Kenisis and writes it into delta tables.
 
-streaming-<your_UserId>-pin
-streaming-<your_UserId>-geo
-streaming-<your_UserId>-user
-Make sure you follow the correct nomenclature, otherwise you will run into permission errors when creating the streams.
-
-Task 2: Configure an API with Kinesis proxy integration
-
-Configure your previously created REST API to allow it to invoke Kinesis actions. Your AWS account has been granted the necessary permissions to invoke Kinesis actions, so you will not need to create an IAM role for your API to access Kinesis.
+For further details follow - [Milestone 9 outline](documentations/milestone_9.md)
 
 
-The access role you have been provided with has the following structure: <your_UserId-kinesis-access-role>. You can copy the ARN of this role from the IAM console, under Roles. This is the ARN you should be using when setting up the Execution role for the integration point of all the methods you will create.
 
-
-Your API should be able to invoke the following actions:
-
-List streams in Kinesis
-Create, describe and delete streams in Kinesis
-Add records to streams in Kinesis
-
-Task 3: Send data to the Kinesis streams
-
-Create a new script user_posting_emulation_streaming.py, that builds upon the initial user_posting_emulation.py you have been provided with.
-
-
-In this script, you should send requests to your API, which adds one record at a time to the streams you have created. You should send data from the three Pinterest tables to their corresponding Kinesis stream.
-
-
-Make sure your database credentials are encoded in a separate, hidden db_creds.yaml file.
-
-Task 4: Read data from Kinesis streams in Databricks
-
-Step 1:
-Create a new Notebook in Databricks and read in your credentials from the Delta table, located at dbfs:/user/hive/warehouse/authentication_credentials, to retrieve the Access Key and Secret Access Key. Follow the same process for this, as you have followed for your batch data.
-
-
-Step 2:
-
-Run your preferred method to ingest data into Kinesis Data Streams. In the Kinesis console, check your data streams are receiving the data.
-
-
-Step 3:
-
-Read the data from the three streams you have created in your Databricks Notebook.
-
-Task 5: Transforms orm Kinesis streams in Databricks
-
-Clean the streaming data in the same way you have previously cleaned the batch data.
-
-Task 6: Write the streaming data to Delta Tables
-
-Once the streaming data has been cleaned, you should save each stream in a Delta Table. You should save the following tables: <your_UserId>_pin_table, <your_UserId>_geo_table and <your_UserId>_user_table.
-
-Task 7: Document your exp
-
-Task 8: GitHub
-
-Save the code you have created in Databricks to your local project repository.
-
-
-Update your GitHub repository with the latest code changes from your local project. Start by staging your modifications and creating a commit. Then, push the changes to your GitHub repository.
-
-Finally, you can upload the diagram of the architecture you created using this template .
 
 # Usage instructions
 
