@@ -1,0 +1,23 @@
+PINTEREST-DATA-PIPELINE905/
+├── Images
+├── README.md
+├── databricks
+│   ├── _1_mount_s3_to_databricks.ipynb
+│   ├── _2_batch_data_processing_from_mounted_s3.ipynb
+│   ├── _3_pinterest_queries.ipynb
+│   └── _4_streaming_data_processing.ipynb
+├── db_creds.yaml
+├── documentations
+│   ├── milestone_3.md
+│   ├── milestone_4.md
+│   ├── milestone_5.md
+│   ├── milestone_8.md
+│   └── milestone_9.md
+├── file_structure.txt
+├── requirements.txt
+├── user_posting_emulation_basic.py
+├── user_posting_emulation_batch.py
+├── user_posting_emulation_streaming.py
+└── your_UserId_dag.py
+
+3 directories, 46 files

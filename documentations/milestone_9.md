@@ -129,7 +129,7 @@ From the 'API Gateway' console, select the 'API' followed by the 'Resources' tab
 
 - ## Add records to streams in Kinesis
 
-- From the `/{stream-name}` resource, two new resources `/record` and `/records` are created with `PUT` method. This was done in the same way as before but with the their respective 'Action name' and 'Template body' details (see below).
+- From the `/{stream-name}` resource, two new resources `/record` and `/records` are created with `PUT` method. This is done in the same way as before but with the their respective 'Action name' and 'Template body' details (see below).
 
     - Select the `/{stream-name}/record` resource and click 'Create method' followed by selecting desired 'Method type'
 
@@ -167,30 +167,48 @@ From the 'API Gateway' console, select the 'API' followed by the 'Resources' tab
 ![stream_name_method_records](../Images/25_stream_name_method_records.jpg)
 
 
+- ## Data Streaming - Step 1 of 3 [Send data to the Kinesis streams]
+
+A new script `user_posting_emulation_streaming.py` is created, that builds upon the initial `user_posting_emulation.py` previously worked on.
+
+This script sends requests to the API, which adds one record at a time to the streams created. Data is sent from the three Pinterest tables to their corresponding Kinesis stream until interrupted.
+
+- Open a terminal on the local machine where the 'project directory' is located
+- Run the script:
+
+```bash
+python user_posting_emulation_streaming.py
+```
+
+![streaming_data](../Images/26_data_streaming.jpg)
+
+- ## Data Streaming - Step 2 of 3 [Visualise data coming into Kinesis Data Streams]
+
+Once data has been sent to Kinesis Data Stream (as above), a successful 200 response.status_code is seen. This data is visualised in the Kinesis console on AWS.
+
+- Navigate to the `Kinesis` console and select the 'stream' you want to look at
+- Choose the 'Data viewer' section
+- Select the 'Shard' (data will normally be stored in the first shard shardId-000000000000 but check others also).
+- 'Starting position' select 'At timestamp'. 
+- 'Start date', corresponds to the date at which you send data to your stream 
+- 'Start time', the time (approximation) at which you start sending data
+- Press 'Get records' to visualise the data that has been send to the stream
+
+![kinesis_data_streaming](../Images/27_kinesis_data_streaming.jpg)
+
+- ## Data Streaming - Step 3 of 3 [Read, transform and write data from Kinesis streams in Databricks]
+
+- A new Notebook is created in Databricks ([_4_streaming_data_processing](<../databricks/_4_streaming_data_processing (2).ipynb>)) and credentials read in from the `Delta table`, located at `dbfs:/user/hive/warehouse/authentication_credentials`, to retrieve the `Access Key ID` and `Secret access key`. The same steps from earlier are repated as followed for the batch data.
+    - Ingest data into Kinesis Data Streams and verify data reception in the Kinesis console (such as sending data to an API with a Kinesis proxy integration - (Data Streaming - Step 1 and 2)).
+    - Run the Databricks Notebook ([_4_streaming_data_processing](<../databricks/_4_streaming_data_processing (2).ipynb>)) and read data from the three created streams 
+- Transform Data from Kinesis Streams in Databricks:
+    - Define schema for stream tables
+    - Deserialise streamed data
+    - Clean the streaming data similar to the batch data cleaning process
+- Write cleaned streamed data to `Delta tables`
+     - Save as: <your_UserId>_pin_table, <your_UserId>_geo_table, and <your_UserId>_user_table
 
 
-Read Data from Kinesis Streams in Databricks:
-
-In Databricks a new Databricks Notebook is created
-Retrieve Access Key and Secret Access Key from the Delta table located at dbfs:/user/hive/warehouse/authentication_credentials.
-Ingest data into Kinesis Data Streams and verify data reception in the Kinesis console.
-Read data from the three created streams in the Databricks Notebook.
-Transform Data from Kinesis Streams in Databricks:
-
-Clean the streaming data similar to the batch data cleaning process.
-Write Streaming Data to Delta Tables:
-
-Save the cleaned streaming data into Delta Tables: <your_UserId>_pin_table, <your_UserId>_geo_table, and <your_UserId>_user_table.
-Document Your Experience:
-
-Document the process and steps taken during this milestone.
-Update GitHub Repository:
-
-Save the Databricks code to the local project repository.
-Update the GitHub repository with the latest code changes:
-Stage modifications, create a commit, and push changes.
-Upload the architecture diagram created using the provided template.
-This summary outlines the tasks and processes involved in setting up, sending, reading, and processing streaming data using AWS Kinesis and Databricks.
 
 
 
@@ -198,32 +216,6 @@ This summary outlines the tasks and processes involved in setting up, sending, r
 
 
 
-
-
-Task 3: Send data to the Kinesis streams
-
-Create a new script user_posting_emulation_streaming.py, that builds upon the initial user_posting_emulation.py you have been provided with.
-
-
-In this script, you should send requests to your API, which adds one record at a time to the streams you have created. You should send data from the three Pinterest tables to their corresponding Kinesis stream.
-
-
-Make sure your database credentials are encoded in a separate, hidden db_creds.yaml file.
-
-Task 4: Read data from Kinesis streams in Databricks
-
-Step 1:
-Create a new Notebook in Databricks and read in your credentials from the Delta table, located at dbfs:/user/hive/warehouse/authentication_credentials, to retrieve the Access Key and Secret Access Key. Follow the same process for this, as you have followed for your batch data.
-
-
-Step 2:
-
-Run your preferred method to ingest data into Kinesis Data Streams. In the Kinesis console, check your data streams are receiving the data.
-
-
-Step 3:
-
-Read the data from the three streams you have created in your Databricks Notebook.
 
 Task 5: Transforms orm Kinesis streams in Databricks
 

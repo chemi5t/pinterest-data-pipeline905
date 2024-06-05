@@ -79,9 +79,10 @@ def run_infinite_post_data_loop():
                     })
         
             headers = {'Content-Type': 'application/json'}
+            # invoke_url = "https://YourAPIInvokeURL/<YourDeploymentStage>/streams/<stream_name>/record" (invole_url found from deploying the API from API Gateway)
             invoke_url_pin = "https://2lpziykeee.execute-api.us-east-1.amazonaws.com/prod/streams/streaming-0ea287818623-pin/record"
             pin_response = requests.request("PUT", invoke_url_pin, headers=headers, data=pin_payload)
-            print("**************************************************", f"\n", pin_response.status_code, f"\n", pin_response.json(), f"\n", pin_payload, f"\n")
+            print("**************************************************\n", "[PIN]\n", "Status code: ", pin_response.status_code, "\n\n", "pin_response.json(): ", pin_response.json(), "\n\n", "pin_payload: ", pin_payload, "\n\n")
 
             geo_payload = json.dumps({
                 "StreamName": "streaming-0ea287818623-geo",
@@ -97,7 +98,7 @@ def run_infinite_post_data_loop():
             
             invoke_url_geo = "https://2lpziykeee.execute-api.us-east-1.amazonaws.com/prod/streams/streaming-0ea287818623-geo/record"
             geo_response = requests.request("PUT", invoke_url_geo, headers=headers, data=geo_payload)
-            print(f"\n", geo_response.status_code, f"\n", geo_response.json(), f"\n", geo_payload, f"\n")
+            print("[GEO]\n", "Status code: ", geo_response.status_code, "\n\n", "geo_response.json(): ", geo_response.json(), "\n\n", "geo_payload: ", geo_payload, "\n\n")
             
             user_payload = json.dumps({
                  "StreamName": "streaming-0ea287818623-user",
@@ -113,7 +114,7 @@ def run_infinite_post_data_loop():
             
             invoke_url_user = "https://2lpziykeee.execute-api.us-east-1.amazonaws.com/prod/streams/streaming-0ea287818623-user/record"
             user_response = requests.request("PUT", invoke_url_user, headers=headers, data=user_payload)
-            print(f"\n", user_response.status_code, f"\n", user_response.json(), f"\n", user_payload, f"\n")
+            print("[USER]\n", "Status code: ", user_response.status_code, "\n\n", "user_response.json(): ", user_response.json(), "\n\n", "user_payload: ", user_payload, "\n\n")
 
 if __name__ == "__main__":
     run_infinite_post_data_loop()

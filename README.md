@@ -1,6 +1,6 @@
 # Pinterest Data Pipeline
 
-# A description of the project
+# Project description
 
 Pinterest, a popular social media platform and visual discovery engine, allows users to save and share ideas through images and videos known as "pins." Users organise their pins into themed collections called "boards," covering diverse topics like home decor, fashion, recipes, and more. With vast data storage and processing billions of data points daily, Pinterest aims to enhance user experience by leveraging data insights.
 
@@ -20,7 +20,7 @@ By leveraging these technologies, this project aims to demonstrate how to build 
 
 
 # Installation instructions
-From the main/root directory of the project folder, follow these steps:
+From the main/root directory of the project folder, follow these steps. Clone the repository:
 
 1. cd into the directory and then in the command line:
     ```bash
@@ -33,6 +33,7 @@ From the main/root directory of the project folder, follow these steps:
     ```bash
     conda activate pinterest_env
     ```
+3. Install the required Python packages via the [requirments.txt](requirements.txt) file:
     ```bash
     pip install -r requirements.txt
     ```
@@ -47,12 +48,8 @@ From the main/root directory of the project folder, follow these steps:
     - requests==2.31.0 
     - SQLAlchemy==2.0.23 
     - tabula-py==2.9.0
-3. Create and set up AWS and Databricks accounts.
-4. Save your database credentials to `db_creds.yaml` for security and to enable data extraction/uploads from/to various sources. Detailed instructions on setting these up and configuring credentials can be found wothin the Milestones explained later.
-
-that contains only the year from the timestamp column
-      number_users_joined, a new column containing the desired query output
-
+4. Create and set up AWS and Databricks accounts.
+5. Save your database credentials to `db_creds.yaml` for security and to enable data extraction/uploads from/to various sources. Detailed instructions on setting these up and configuring credentials can be found within the Milestones explained later.
 
 # Summary of Project Milestones 
 
@@ -179,7 +176,6 @@ It was also demonstrated how valuable insights could be produced by joining the 
 
 For further details follow - [Milestone 7 SQL queries](databricks/_3_pinterest_queries.ipynb)
 
-
 - ### **Outcomes from Milestone 8 (Batch processing: AWS MWAA)**
 
 Databricks Workloads are orchestrated on `AWS MWAA` (Managed Workflows for Apache Airflow).
@@ -206,100 +202,71 @@ Kinesis Data Streams is used to create three streams for the Pinterest data:
 
 An API is reconfigured with Kinesis Proxy Integration. This requires the creation of a new script, [user_posting_emulation_streaming.py](user_posting_emulation_streaming.py); that sends data from Pinterest tables to corresponding `Kinesis streams` via `API requests`.
 
-Databricks then cleans the ingests streamed data from Kenisis and writes it into delta tables.
+Databricks ([_4_streaming_data_processing](<databricks/_4_streaming_data_processing (2).ipynb>)) then cleans the ingests streamed data from Kenisis and writes it into delta tables.
 
 For further details follow - [Milestone 9 outline](documentations/milestone_9.md)
 
+## Architecture diagram:
 
+This summary outlines the tasks and processes involved in setting up, sending, reading, and processing streaming data using AWS Kinesis and Databricks.
 
+![Architecture digram](Images/28_CloudPinterestPipeline.jpeg)
 
 # Usage instructions
 
-1. Batch processing
-2. Steam Processing
-3. Data Querying 
+1. Data emulation
+    - Milestone 1 and 2
 
-<!-- 1. Run the `main.py` to execute the data extraction, cleaning, and database creation processes in the `/root` folder via the terminal in `VS Code`.
-    ```bash
-    python main.py
-    ```
-2. Execute `_05_SQL\_01_star_schema_sales_data.sql` script via `pgAdmin 4` or `SQLTools` in `VS Code`; or any other tool you prefer for interacting with `PostgreSQL`. This sets up the star-schema in the `sales_data` database. ERD can be found in milestone 3.
-3. Similarly run `_05_SQL\_02_queries.sql` which answers questions posed by the business by querying the `sales_data` database. -->
+2. Batch processing
+    - Milestone 3 to 8
 
-# File structure of the project
+3. Stream Processing
+    - Milestone 9
 
-There are seven folders within the `/root` folder: 
+4. Data Querying 
+    - [Milestone 7 SQL queries](databricks/_3_pinterest_queries.ipynb)
 
-- /_01_raw_tables_csv - *Raw untouched tables extracted via `main.py` and saved as `.csv`*
-    - card_details.csv
-    - date_details.csv
-    - legacy_users.csv
-    - orders_tabl.csv
-    - products_details.csv
-    - store_details.csv
+# Project file structure
 
-- /_02_manipulate_raw_tables_ipynb - *Raw untouched tables extracted via `mian.py` and ready to be checked for cleaning*
-    - card_details.ipynb
-    - date_details.ipynb
-    - legacy_users.ipynb
-    - orders_tabl.ipynb
-    - products_details.ipynb
-    - store_details.ipynb
+```txt
+PINTEREST-DATA-PIPELINE905/
+├── Images      [used in README.md]
+├── README.md
+├── databricks      [Notebooks used in Databricks]
+│   ├── _1_mount_s3_to_databricks.ipynb
+│   ├── _2_batch_data_processing_from_mounted_s3.ipynb
+│   ├── _3_pinterest_queries.ipynb
+│   └── _4_streaming_data_processing.ipynb
+├── db_creds.yaml   [Private credentials]
+├── documentations      [Links to README.md]
+│   ├── milestone_3.md
+│   ├── milestone_4.md
+│   ├── milestone_5.md
+│   ├── milestone_8.md
+│   └── milestone_9.md
+├── file_structure.txt      [Overview of project directory structure]
+├── requirements.txt        [Project environment requirements]
+├── user_posting_emulation_basic.py
+├── user_posting_emulation_batch.py
+├── user_posting_emulation_streaming.py
+└── your_UserId_dag.py      [DAG file uploaded to AWS MWAA (Airflow UI) to run the Databricks notebook]
+```
 
-- /_03_cleaned_tables_csv - *Cleaned tables saved as `.csv` and uploaded to database automatically via `main.py`*
-    - card_details_data_cleaned.csv
-    - date_details_data_cleaned.csv
-    - legacy_users_data_cleaned.csv
-    - orders_tabl_data_cleaned.csv
-    - products_details_data_cleaned.csv
-    - store_details_data_cleaned.csv
-
-- /_04_cleaned_tables_ipynb - *Files updated from folder `/_02*`. Tables cleaning logic saved `*_data_cleaned.ipynb`.*
-    - card_details_data_cleaned.ipynb
-    - date_details_data_cleaned.ipynb
-    - legacy_users_data_cleaned.ipynb
-    - orders_tabl_data_cleaned.ipynb
-    - products_details_data_cleaned.ipynb
-    - store_details_data_cleaned.ipynb
-
-- /_05_SQL - *After running main.py the following `.sql` files set up the star-schema, provide answers to business questions and allows the removal of dependencies when starting over with re building the database*
-    - _01_star_schema_sales_data.sql
-    - _02_queries.sql
-    - _03_drop_table_query.sql
-
-- /_06_multinational_retail_data_centralisation - `*.py` files required by `main.py` to operate*
-    - data_cleaning.py
-    - data_extraction.py
-    - database_utils.py
-
-- /_07_images - *Picture files used in the `README.md`*
-    - Contains image files
-
-- /root - *This folder has all the folders seen above as well as containing the .env files which points to the stored private credentials.  `*.yaml`, `*.env`, and  `__pycache__/` have been added to `.gitignore`. Environment details saved to `requirements.txt`, `pip_requirements.txt` and `conda_requirements.txt`. `README.md` will also cover all aspects how the project was conducted over 4 milestones.* 
-    - /_01_raw_tables_csv 
-    - /_02_manipulate_raw_tables_ipynb
-    - /_03_cleaned_tables_csv
-    - /_04_cleaned_tables_ipynb
-    - /_05_SQL
-    - /_06_multinational_retail_data_centralisation
-    - /_07_images 
-    - .env
-    - .gitignore
-    - conda_requirements.txt
-    - db_creds.yaml
-    - main.py
-    - pip_requirements.txt
-    - README.md
-    - requirements.txt
+- /PINTEREST-DATA-PIPELINE905
+    - This folder has all the folders seen above as well as containing `.env` and `.gitignore`
+    - The .env file points to the stored private credentials
+    - `*.yaml`, `*.env`, and  `__pycache__/` have been added to `.gitignore`
+    - Environment details saved to `requirements.txt`
+    - `README.md` will cover all aspects of how the project was conducted over 9 milestones
 
 Screen shot of EXPLORER from `VS Code` containing the above contents:
 
-> ![VSC1](_07_images\VSC1.png) 
+![Directory](Images/29_directory.jpg)
 
 # Languages
 
-<!-- - Python
-- SQL -->
+- Python
+- SQL
 
 # License information
 
