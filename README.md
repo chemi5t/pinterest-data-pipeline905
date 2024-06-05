@@ -18,7 +18,6 @@ This project aims to replicate Pinterest's data processing system by creating an
 
 By leveraging these technologies, this project aims to demonstrate how to build a secure, robust and scalable data processing pipeline similar to that of Pinterest via AWS Cloud. Additionally, the pipeline facilitates value extraction through SQL queries, enhancing the project's analytical capabilities.
 
-
 # Installation instructions
 From the main/root directory of the project folder, follow these steps. Clone the repository:
 
@@ -50,6 +49,26 @@ From the main/root directory of the project folder, follow these steps. Clone th
     - tabula-py==2.9.0
 4. Create and set up AWS and Databricks accounts.
 5. Save your database credentials to `db_creds.yaml` for security and to enable data extraction/uploads from/to various sources. Detailed instructions on setting these up and configuring credentials can be found within the Milestones explained later.
+
+## Architecture diagram:
+
+This summary outlines the tasks and processes involved in setting up, sending, reading, and processing streaming data using AWS Kinesis and Databricks.
+
+![Architecture digram](Images/28_CloudPinterestPipeline.jpeg)
+
+# Usage instructions
+
+1. Data emulation
+    - Milestone 1 and 2
+
+2. Batch processing
+    - Milestone 3 to 8
+
+3. Stream Processing
+    - Milestone 9
+
+4. Data Querying 
+    - [Milestone 7 SQL queries](databricks/_3_pinterest_queries.ipynb)
 
 # Summary of Project Milestones 
 
@@ -205,26 +224,6 @@ An API is reconfigured with Kinesis Proxy Integration. This requires the creatio
 Databricks ([_4_streaming_data_processing](<databricks/_4_streaming_data_processing (2).ipynb>)) then cleans the ingests streamed data from Kenisis and writes it into delta tables.
 
 For further details follow - [Milestone 9 outline](documentations/milestone_9.md)
-
-## Architecture diagram:
-
-This summary outlines the tasks and processes involved in setting up, sending, reading, and processing streaming data using AWS Kinesis and Databricks.
-
-![Architecture digram](Images/28_CloudPinterestPipeline.jpeg)
-
-# Usage instructions
-
-1. Data emulation
-    - Milestone 1 and 2
-
-2. Batch processing
-    - Milestone 3 to 8
-
-3. Stream Processing
-    - Milestone 9
-
-4. Data Querying 
-    - [Milestone 7 SQL queries](databricks/_3_pinterest_queries.ipynb)
 
 # Project file structure
 
