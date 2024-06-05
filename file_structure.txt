@@ -1,5 +1,6 @@
 PINTEREST-DATA-PIPELINE905/
 ├── Images
+├── LICENSE.md
 ├── README.md
 ├── databricks
 │   ├── _1_mount_s3_to_databricks.ipynb

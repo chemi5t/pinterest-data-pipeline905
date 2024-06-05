@@ -270,7 +270,7 @@ Screen shot of EXPLORER from `VS Code` containing the above contents:
 
 # License information
 
-<!-- This project is licensed under the terms of the [MIT License](LICENSE.md). Please see the [LICENSE.md](LICENSE.md) file for details. -->
+This project is licensed under the terms of the [MIT License](LICENSE.md). Please see the [LICENSE.md](LICENSE.md) file for details.
 
 
 
