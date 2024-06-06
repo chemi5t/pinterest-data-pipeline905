@@ -1,7 +1,7 @@
 .o
 .pyc
 .exe
-*.yaml
+db_creds.yaml
 *.env
 __pycache__/
 .vscode
