@@ -230,6 +230,7 @@ For further details follow - [Milestone 9 outline](documentations/milestone_9.md
 ```txt
 PINTEREST-DATA-PIPELINE905/
 ├── Images      [used in README.md]
+├── LICENSE.md
 ├── README.md
 ├── databricks      [Notebooks used in Databricks]
 │   ├── _1_mount_s3_to_databricks.ipynb
@@ -265,6 +266,7 @@ Screen shot of EXPLORER from `VS Code` containing the above contents:
 # Languages
 
 - Python
+- PySpark SQL
 - SQL
 
 # License information
