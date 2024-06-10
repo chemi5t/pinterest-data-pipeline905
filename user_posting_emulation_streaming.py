@@ -15,21 +15,42 @@ import yaml # to read .yaml
 random.seed(100)
 
 class AWSDBConnector:
+    """
+    AWSDBConnector is responsible for creating a connection to the AWS database.
+    It reads database credentials from a YAML file specified in the environment variables.
 
+    Attributes:
+        creds (dict): Dictionary containing the database credentials.
+    """
     def __init__(self):
+        """
+        Initialises the AWSDBConnector class by accessing private credentials from a YAML file for API authentication.
+        """
+        cred_config_access = config('credentials_env') # refers to .yaml file via decouple import config; to gain access to private credentials for API
          
-         cred_config_access = config('credentials_env') # refers to .yaml file via decouple import config; to gain access to private credentials for API
-         
-         with open(cred_config_access, 'r') as db_creds: # extracts the credentials from .yaml file
+        with open(cred_config_access, 'r') as db_creds: # extracts the credentials from .yaml file
             self.creds = yaml.safe_load(db_creds)
 
     def create_db_connector(self):
+        """
+        Creates a database connector using SQLAlchemy to connect to a MySQL database.
+
+        Returns:
+            engine: An SQLAlchemy engine object that is connected to the MySQL database using the credentials provided.
+        """
         engine = sqlalchemy.create_engine(f"mysql+pymysql://{self.creds['AWSDB_USER']}:{self.creds['AWSDB_PASSWORD']}@{self.creds['AWSDB_HOST']}:{self.creds['AWSDB_PORT']}/{self.creds['AWSDB_DATABASE']}?charset=utf8mb4")
         return engine
 
 new_connector = AWSDBConnector()
 
 def run_infinite_post_data_loop():
+    """
+    Runs an infinite loop that randomly selects a row from each table in the database and posts the data to their respective Kinesis streams.
+    Designed to be run as a thread.
+
+    Returns:
+        None: The function runs indefinitely and doesn't explicitly return any value.
+    """
     while True:
         sleep(random.randrange(0, 2))
         random_row = random.randint(0, 11000)
