@@ -53,10 +53,11 @@ def run_infinite_post_data_loop():
             
             for row in user_selected_row:
                 user_result = dict(row._mapping)
-            
-            print(pin_result)
-            print(geo_result)
-            print(user_result)
+
+            print("**************************************************\n")
+            print("pin result: ", pin_result, "\n")
+            print("geo result: ", geo_result, "\n")
+            print("user result: ", user_result, "\n")
 
             pin_payload = json.dumps({
                 "records": [
@@ -81,7 +82,7 @@ def run_infinite_post_data_loop():
             headers = {'Content-Type': 'application/vnd.kafka.json.v2+json'}
             invoke_url_pin = "https://2lpziykeee.execute-api.us-east-1.amazonaws.com/prod/topics/0ea287818623.pin"
             pin_response = requests.request("POST", invoke_url_pin, headers=headers, data=pin_payload)
-            print(pin_response.status_code)
+            print("pin status code: ", pin_response.status_code, "\n")
 
             geo_payload = json.dumps({
                 "records": [
@@ -98,7 +99,7 @@ def run_infinite_post_data_loop():
             }, default=str)
             invoke_url_geo = "https://2lpziykeee.execute-api.us-east-1.amazonaws.com/prod/topics/0ea287818623.geo"
             geo_response = requests.request("POST", invoke_url_geo, headers=headers, data=geo_payload)
-            print(geo_response.status_code)
+            print("geo status code: ", geo_response.status_code, "\n")
             
             user_payload = json.dumps({
                 "records": [
@@ -115,7 +116,7 @@ def run_infinite_post_data_loop():
             }, default=str)
             invoke_url_user = "https://2lpziykeee.execute-api.us-east-1.amazonaws.com/prod/topics/0ea287818623.user"
             user_response = requests.request("POST", invoke_url_user, headers=headers, data=user_payload)
-            print(user_response.status_code)
+            print("user status code: ", user_response.status_code, "\n")
 
 if __name__ == "__main__":
     run_infinite_post_data_loop()

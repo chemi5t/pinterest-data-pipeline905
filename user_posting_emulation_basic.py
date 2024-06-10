@@ -1,16 +1,11 @@
-# import requests
-from time import sleep
 import random
+import sqlalchemy # SQL toolkit and Object-Relational Mapping (ORM) library. 
+import yaml # to read .yaml and parser and emitter for Python
+
+from decouple import config # Manage settings and environment variables
 from multiprocessing import Process
-# import boto3
-# import json
-import sqlalchemy
-from sqlalchemy import text
-
-
-from decouple import config # Calling sensitive information
-import yaml # to read .yaml
-
+from sqlalchemy import text 
+from time import sleep
 
 
 random.seed(100)

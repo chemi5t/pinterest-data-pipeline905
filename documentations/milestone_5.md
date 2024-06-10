@@ -75,7 +75,7 @@ cd /home/ec2-user/confluent-7.2.0/bin
 ./kafka-rest-start /home/ec2-user/confluent-7.2.0/etc/kafka-rest/kafka-rest.properties
 ```
 
-This allows the proxy to receive requests from the `API`. The following message is seen from the `EC2` console: `INFO Server started, listening for requfifa states card for ests...`
+This allows the proxy to receive requests from the `API`. The following message is seen from the `EC2` console: `INFO Server started, listening for requests... `
 
 ![REST_proxy](../Images/08_rest_proxy.jpg)
 

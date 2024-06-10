@@ -36,19 +36,8 @@ From the main/root directory of the project folder, follow these steps. Clone th
     ```bash
     pip install -r requirements.txt
     ```
-- Packages of note:                 ########### update this ###########
-    - boto3==1.34.21 
-    - nbformat==5.9.2 
-    - numpy==1.26.2 
-    - pandas==2.1.3 
-    - python-dateutil==2.8.2 
-    - python-decouple==3.8 
-    - PyYAML==6.0.1 
-    - requests==2.31.0 
-    - SQLAlchemy==2.0.23 
-    - tabula-py==2.9.0
 4. Create and set up AWS and Databricks accounts.
-5. Save your database credentials to `db_creds.yaml` for security and to enable data extraction/uploads from/to various sources. Detailed instructions on setting these up and configuring credentials can be found within the Milestones explained later.
+5. Save your database credentials to `db_creds.yaml` for security and to enable data extraction/uploads from/to various sources. 
 
 ## Architecture diagram:
 
