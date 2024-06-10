@@ -256,7 +256,7 @@ Screen shot of EXPLORER from `VS Code` containing the above contents:
 
 - Python
 - PySpark SQL
-- SQL
+- Spark SQL
 
 # License information
 
