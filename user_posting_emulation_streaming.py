@@ -1,14 +1,13 @@
-import requests
-from time import sleep
-import random
-from multiprocessing import Process
-# import boto3
 import json
+import random
+import requests
 import sqlalchemy
-from sqlalchemy import text
+import yaml                                         # to read .yaml
 
-from decouple import config # Calling sensitive information
-import yaml # to read .yaml
+from decouple import config                         # Calling sensitive information
+from multiprocessing import Process
+from sqlalchemy import text
+from time import sleep
 
 
 ############################################################################################################################################################
@@ -76,9 +75,9 @@ def run_infinite_post_data_loop():
             for row in user_selected_row:
                 user_result = dict(row._mapping)
             
-            # print("**************************************************", f"\n", pin_result, f"\n")
-            # print(geo_result, f"\n")
-            # print(user_result, f"\n")
+                                                                                                        # print("**************************************************", f"\n", pin_result, f"\n")
+                                                                                                        # print(geo_result, f"\n")
+                                                                                                        # print(user_result, f"\n")
 
             pin_payload = json.dumps({
                 "StreamName": "streaming-0ea287818623-pin",

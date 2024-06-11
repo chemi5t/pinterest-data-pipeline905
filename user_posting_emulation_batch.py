@@ -1,15 +1,13 @@
-import requests
-from time import sleep
-import random
-from multiprocessing import Process
-# import boto3
 import json
+import random
+import requests
 import sqlalchemy
+import yaml                                                         # to read .yaml
+
+from decouple import config                                         # Calling sensitive information
+from multiprocessing import Process
 from sqlalchemy import text
-
-from decouple import config # Calling sensitive information
-import yaml # to read .yaml
-
+from time import sleep
 
 random.seed(100)
 
