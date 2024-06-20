@@ -6,3 +6,4 @@ db_creds.yaml
 __pycache__/
 .vscode
 .pem
+private_databricks_notebooks/

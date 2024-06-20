@@ -182,7 +182,7 @@ For further details follow - [Milestone 7 df cleaning outline](databricks/_2_bat
 
 It was also demonstrated how valuable insights could be produced by joining the 3 dataframes via the execution of SQL queries.
 
-For further details follow - [Milestone 7 SQL queries](databricks/_3_pinterest_queries.ipynb)
+For further details follow - [Milestone 7 SQL quereis](databricks/_3_pinterest_queries.ipynb)
 
 - ### **Outcomes from Milestone 8 (Batch processing: AWS MWAA)**
 
